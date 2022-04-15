@@ -1,8 +1,114 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
         <title>Single Page</title>
-        <script>
+        <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}">
+		<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+
+
+
+	</head>
+    <body>
+
+	<div class="root">
+			<div class="page">
+				<h1 class="page__title">Таблица</h1>
+
+
+<form method="POST" id="post-form">
+    {% csrf_token %}
+	<form class="table-form" onSubmit={handleSubmit}>
+		<select name="name" value=name required>
+			<option value="">Поле...</option>
+			<option value="name">Название</option>
+			<option value="points">Количество</option>
+			<option value="distance">Расстояние</option>
+		</select>
+		<select name="law" value=law required>
+			<option value="">Условие...</option>
+			<option value="contain">Содержит</option>
+			<option value="equal">Равно</option>
+			<option value="greater">Больше</option>
+			<option value="less">Меньше</option>
+		</select>
+		<input
+			name="argument"
+			value=argument
+			onChange={handleArgumentChange}
+			type="text"
+			placeholder="Значение"
+			required
+		/>
+		<button class="table-form__button" type="reset" name="reset" value="reset">
+			Сброс
+		</button>
+		<button class="table-form__button" type="submit">
+			Фильтр
+		</button>
+
+
+
+    <br />
+    <div id="result" >{{ result }}</div>
+
+</form>
+
+<script>
+$(document).ready(
+  $('#post-form').submit(function(e){
+    e.preventDefault();
+    var serializedData = $(this).serialize();
+
+    $.ajax({
+      type:"POST",
+      url: "{% url 'post_list' %}",
+      data:  serializedData,
+      success: function(data){
+        $("#result").text(data["result"]);
+      }
+    });
+  })
+);
+</script>
+<br />
+<table class="table">
+					<thead class="table__head">
+						<tr class="table__row">
+							<th class="table__hight">Дата</th>
+							<th class="table__hight table__hight_active">Имя</th>
+							<th class="table__hight table__hight_active">Количество</th>
+							<th class="table__hight table__hight_active">Расстояние</th>
+						</tr>
+					</thead>
+
+					<tbody class="table__body">
+							{% for date, name, amount, distance in result %}
+							<tr class="table__row">
+								<td class="table__down">{{date}}</td>
+								<td class="table__down">{{name}}</td>
+								<td class="table__down">{{amount}}</td>
+								<td class="table__down">{{distance}}</td>
+							</tr>
+							{% endfor %}
+
+
+					</tbody>
+				</table>
+
+		<!-- <button data-section="1">Section 1</button>
+        <button data-section="2">Section 2</button>
+        <button data-section="3">Section 3</button>
+        <button data-section="4">Section 4</button>-->
+
+        <!-- Contents loaded from server is inserted here by javascript -->
+         <!-- <div id="content">
+
+        </div>
+
+	<script>
 
             //  This function communicates with django (backend)
 
@@ -26,19 +132,8 @@
             });
 
 
-        </script>
-    </head>
-    <body>
-        <h1>Hello</h1>
-        <button data-section="1">Section 1</button>
-        <button data-section="2">Section 2</button>
-        <button data-section="3">Section 3</button>
-        <button data-section="4">Section 4</button>
+        </script> -->
 
-        <!-- Contents loaded from server is inserted here by javascript -->
-        <div id="content">
-
-        </div>
 
     </body>
 </html>

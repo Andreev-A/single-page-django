@@ -1,0 +1,93 @@
+.table-form, h1 {
+	padding: 10px 0;
+	width: 80%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.table-form__button {
+	cursor: pointer;
+}
+
+
+body {
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+		'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+code {
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+
+.table {
+	display: table;
+	border-collapse: separate;
+	box-sizing: border-box;
+	text-indent: initial;
+	border-spacing: 2px;
+	border-color: grey;
+	width: 80%;
+	margin: 0;
+	outline: 1px solid black;
+}
+
+.table__row {
+	display: table-row;
+	vertical-align: inherit;
+	border-color: inherit;
+}
+
+.table__row:nth-of-type(odd) {
+	background-color: rgba(0, 0, 0, .05);
+}
+
+.table__hight {
+	padding: .75rem;
+	vertical-align: top;
+	border-top: 1px solid #dee2e6;
+	text-align: center;
+	vertical-align: bottom;
+	border-bottom: 2px solid #dee2e6;
+}
+.table__hight_active {
+	cursor: pointer;
+	transition: 0.3s ease;
+}
+
+.table__hight_active:hover {
+	opacity: 0.6;
+}
+
+.table__down {
+	padding: .75rem;
+	vertical-align: top;
+	border-top: 1px solid #dee2e6;
+	text-align: center;
+}
+
+.root {
+	background-color: black;
+}
+
+.page {
+	max-width: 1280px;
+	background-color: white;
+	margin: auto;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.page__title {
+	font-size: 36px;
+	line-height: 1.1;
+	color: black;
+	margin: 0;
+}
