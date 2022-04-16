@@ -1,64 +1,52 @@
 from django.shortcuts import render
 from django.http import HttpResponse, Http404
 
+from .models import Table
 
-from . models import Table
 
 # Create your views here.
 def index(request):
-    return render(request, "singlepage/index.html")
 
+    post_list(request)
+    return render(request, "singlepage/index.html", )
 
-texts = ["111",
-         "222",
-         "333",
-         "444", ]
-
-
-def section(request, num):
-    if 1 <= num <= 4 or num == 'undefined':
-        return HttpResponse(texts[num - 1])
-    else:
-        raise Http404("No such section")
-
-
-
-from django.http import JsonResponse
 
 def post_list(request):
-   if request.method == "POST":
-      name = request.POST.get('name')
-      law = request.POST.get('law')
-      argument = request.POST.get('argument')
-      reset = request.POST.get('reset')
-      # num1 = request.POST.get('num_1')
-      # num2 = request.POST.get('num_2')
-      # result = int(num1) + int(num2)
-      result = name
+    if request.method == "POST":
+        column_selection = request.POST.get('column_selection')
+        condition_selection = request.POST.get('condition_selection')
+        value_to_filter = request.POST.get('value_to_filter')
+        if column_selection == 'name' and condition_selection in ('equal', 'contains'):
+            queryset = Table.objects.filter(name=value_to_filter)
+        elif column_selection == 'name' and condition_selection == 'larger':
+            queryset = Table.objects.filter(name__gt=value_to_filter)
+        elif column_selection == 'name' and condition_selection == 'smaller':
+            queryset = Table.objects.filter(name__lt=value_to_filter)
+        elif column_selection == 'amount' and condition_selection in ('equal', 'contains'):
+            queryset = Table.objects.filter(amount=value_to_filter)
+        elif column_selection == 'amount' and condition_selection == 'larger':
+            queryset = Table.objects.filter(amount__gt=value_to_filter)
+        elif column_selection == 'amount' and condition_selection == 'smaller':
+            queryset = Table.objects.filter(amount__lt=value_to_filter)
+        elif column_selection == 'distance' and condition_selection in ('equal', 'contains'):
+            queryset = Table.objects.filter(distance=value_to_filter)
+        elif column_selection == 'distance' and condition_selection == 'larger':
+            queryset = Table.objects.filter(distance__gt=value_to_filter)
+        elif column_selection == 'distance' and condition_selection == 'smaller':
+            queryset = Table.objects.filter(distance__lt=value_to_filter)
+        else:
+            queryset = Table.objects.all()
 
-   #    return JsonResponse({"result": result})
-   #
-   # else:
-      return render(request, 'singlepage/index.html', context={"result":result})
+        result = []
+        for i in range(len(queryset)):
+            date, name, amount, distance = str(queryset[i]).split()
+            table_row = f"""
+                <tr class="table__row">
+                <td class="table__down">{date}</td>
+                <td class="table__down">{name}</td>
+                <td class="table__down">{amount}</td>
+                <td class="table__down">{distance}</td></tr>
+                """
+            result += table_row
 
-
-# def checkout(request):
-#     checks = request.POST.getlist('checks')
-#     print(checks)  # Проверяем наличие id галочек
-#     array_num = [int(item) for item in checks]  # перевод в числовой вид из стрингового представления
-#     appen = []
-#     flag = False  # флаг для определения 2 и более выбранных элементов (для if-else в HTML-шаблоне)
-#     if (len(array_num) > 1):
-#         for el in range(0, len(array_num)):
-#             flag = True
-#             count = array_num[el]  # получение значения первого элемента листа
-#             chk = MenuShow.objects.get(id=count)  # выбираем из БД значение, равное id объекта в БД
-#             print(chk)
-#             appen.append(chk)  # присоединение к массиву для вывода двух и более галочек в итоговой таблице
-#         checks_list = appen
-#     else:
-#         checks_list = MenuShow.objects.get(id=array_num[0])
-#         flag = False
-#         print(checks_list)
-#     print(appen)
-#     return render(request, './checkout.html', {'checks': checks, 'checks_list': checks_list, 'flag': flag})
+        return HttpResponse(result)
