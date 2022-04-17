@@ -91,3 +91,28 @@ code {
 	color: black;
 	margin: 0;
 }
+
+.paginator {
+	padding: 20px 0;
+	display: flex;
+	gap: 20px;
+}
+
+.paginator__page {
+	width: 15px;
+	height: 15px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	outline: 1px solid black;
+	transition: 0.3 ease;
+}
+
+.paginator__page:hover {
+	opacity: 0.7;
+}
+
+.paginator__page_active {
+	outline: 1px solid red;
+}
