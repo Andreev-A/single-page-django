@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, Http404
 from .models import Table
 
-NUMBER_OF_TABLE_ROW = 7
+NUMBER_OF_TABLE_ROW = 3
 _database_data = []
 _page = 1
 
@@ -99,9 +99,9 @@ def section(request, num):
     Page navigation. Return the selected page.
     """
     global _database_data
-    if 0 <= num <= 3:
+    if 1 <= num <= 3:
         page_navigation = 0
-        if num in (0, 1):
+        if num == 1:
             form_data = (None, None, None)
             _database_data = fetch_from_database(form_data)
         elif num == 2:
