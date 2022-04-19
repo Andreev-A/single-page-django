@@ -3,7 +3,7 @@ from django.http import HttpResponse, Http404
 from .models import Table
 
 NUMBER_OF_TABLE_ROW = 7
-_form_data = (None, None, None)
+_database_data = []
 _page = 1
 
 
@@ -43,12 +43,11 @@ def fetch_from_database(form_data):
     return data
 
 
-def table_body_output(form_data, page_navigation):
+def table_body_output(data, page_navigation):
     """
     Forming the table body in HTML page by page.
     """
     global _page
-    data = fetch_from_database(form_data)
     number_of_pages = len(data) // NUMBER_OF_TABLE_ROW + 1 \
         if not data or len(data) % NUMBER_OF_TABLE_ROW else len(data) // NUMBER_OF_TABLE_ROW
     if page_navigation == -1 and _page > 1:
@@ -81,14 +80,15 @@ def post_list(request):
     """
     Getting form data. Return of the first page.
     """
-    global _form_data
+    global _database_data
     if request.method == "POST":
         column_selection = request.POST.get('column_selection')
         condition_selection = request.POST.get('condition_selection')
         value_to_filter = request.POST.get('value_to_filter')
-        _form_data = column_selection, condition_selection, value_to_filter
+        form_data = column_selection, condition_selection, value_to_filter
+        _database_data = fetch_from_database(form_data)
         page_navigation = 0
-        result = table_body_output(_form_data, page_navigation)
+        result = table_body_output(_database_data, page_navigation)
         return HttpResponse(result)
     else:
         raise Http404("Bad request")
@@ -98,16 +98,17 @@ def section(request, num):
     """
     Page navigation. Return the selected page.
     """
-    global _form_data
+    global _database_data
     if 0 <= num <= 3:
         page_navigation = 0
         if num in (0, 1):
-            _form_data = (None, None, None)
+            form_data = (None, None, None)
+            _database_data = fetch_from_database(form_data)
         elif num == 2:
             page_navigation = -1
         elif num == 3:
             page_navigation = 1
-        result = table_body_output(_form_data, page_navigation)
+        result = table_body_output(_database_data, page_navigation)
         return HttpResponse(result)
     else:
         raise Http404("Bad request")
