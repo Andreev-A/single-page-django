@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, Http404
 from .models import Table
 
-NUMBER_OF_TABLE_ROW = 3
+NUMBER_OF_TABLE_ROW = 7
 _database_data = []
 _page = 1
 
