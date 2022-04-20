@@ -1,12 +1,13 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Single Page</title>
-        <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}">
-		<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-		<script>
+<head>
+    <meta charset="UTF-8">
+    <title>Single Page</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script>
             function showSection(section) {
                 fetch(`/sections/${section}`)
                 .then(response => response.text())
@@ -23,40 +24,41 @@
                     }
                 })
             });
-        </script>
-	</head>
-    <body>
-		<div class="root">
-			<div class="page">
-				<h1 class="page__title">Таблица</h1>
-				<form method="POST" id="post-form" class="table-form">
-					{% csrf_token %}
-					<select name="column_selection" value=column_selection required>
-						<option value="">Поле...</option>
-						<option value="name">Название</option>
-						<option value="amount">Количество</option>
-						<option value="distance">Расстояние</option>
-					</select>
-					<select name="condition_selection" value=condition_selection required>
-						<option value="">Условие...</option>
-						<option value="equal">Равно</option>
-						<option value="contains">Содержит</option>
-						<option value="larger">Больше</option>
-						<option value="smaller">Меньше</option>
-					</select>
-					<input
-						name="value_to_filter"
-						value= ""
-						placeholder="Значение"
-						type="text"
-						required
-					/>
-					<button class="table-form__button" id="reset" type="reset" data-section="1">
-						Сброс
-					</button>
-					<input class="table-form__button" type="submit" value="Фильтр">
-				</form>
-				<script>
+
+    </script>
+</head>
+<body>
+<div class="root">
+    <div class="page">
+        <h1 class="page__title">Таблица</h1>
+        <form method="POST" id="post-form" class="table-form">
+            {% csrf_token %}
+            <select name="column_selection" value=column_selection required>
+                <option value="">Поле...</option>
+                <option value="name">Название</option>
+                <option value="amount">Количество</option>
+                <option value="distance">Расстояние</option>
+            </select>
+            <select name="condition_selection" value=condition_selection required>
+                <option value="">Условие...</option>
+                <option value="equal">Равно</option>
+                <option value="contains">Содержит</option>
+                <option value="larger">Больше</option>
+                <option value="smaller">Меньше</option>
+            </select>
+            <input
+                    name="value_to_filter"
+                    value=""
+                    placeholder="Значение"
+                    type="text"
+                    required
+            />
+            <button class="table-form__button" id="reset" type="reset" data-section="1">
+                Сброс
+            </button>
+            <input class="table-form__button" type="submit" value="Фильтр">
+        </form>
+        <script>
 				$(document).ready(function(){
             		$("#reset").trigger("click");
             		}
@@ -76,28 +78,26 @@
 						});
 				    })
 				);
-				</script>
-				<br />
-				<table class="table">
-					<thead class="table__head">
-						<tr class="table__row">
-							<th class="table__hight">Дата</th>
-							<th class="table__hight table__hight_active">Название</th>
-							<th class="table__hight table__hight_active">Количество</th>
-							<th class="table__hight table__hight_active">Расстояние</th>
-						</tr>
-					</thead>
-					<tbody class="table__body" id="result">{{ result }}
-					</tbody>
-				</table>
-					<div class="paginator">
-						<button class='paginator__page' data-section="2">-</button>
-						<button class='paginator__page' data-section="3">+</button>
-					</div>
-				</div>
-			</div>
-		</div>
-    </body>
+
+        </script>
+        <br/>
+        <table class="table">
+            <thead class="table__head">
+            <tr class="table__row">
+                <th class="table__hight">Дата</th>
+                <th class="table__hight table__hight_active">Название</th>
+                <th class="table__hight table__hight_active">Количество</th>
+                <th class="table__hight table__hight_active">Расстояние</th>
+            </tr>
+            </thead>
+            <tbody class="table__body" id="result">{{ result }}
+            </tbody>
+        </table>
+        <div class="paginator">
+            <button class='paginator__page' data-section="2">-</button>
+            <button class='paginator__page' data-section="3">+</button>
+        </div>
+    </div>
+</div>
+</body>
 </html>
-
-
