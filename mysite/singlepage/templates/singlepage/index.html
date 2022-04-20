@@ -51,12 +51,16 @@
 						type="text"
 						required
 					/>
-					<button class="table-form__button" type="reset" data-section="1">
+					<button class="table-form__button" id="reset" type="reset" data-section="1">
 						Сброс
 					</button>
 					<input class="table-form__button" type="submit" value="Фильтр">
 				</form>
 				<script>
+				$(document).ready(function(){
+            		$("#reset").trigger("click");
+            		}
+        		);
 				$(document).ready(
 				    $('#post-form').submit(function(e){
 					    e.preventDefault();
