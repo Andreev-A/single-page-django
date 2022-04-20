@@ -33,13 +33,13 @@
         <h1 class="page__title">Таблица</h1>
         <form method="POST" id="post-form" class="table-form">
             {% csrf_token %}
-            <select name="column_selection" value=column_selection required>
+            <select name="column_selection" required>
                 <option value="">Поле...</option>
                 <option value="name">Название</option>
                 <option value="amount">Количество</option>
                 <option value="distance">Расстояние</option>
             </select>
-            <select name="condition_selection" value=condition_selection required>
+            <select name="condition_selection" required>
                 <option value="">Условие...</option>
                 <option value="equal">Равно</option>
                 <option value="contains">Содержит</option>
@@ -59,25 +59,25 @@
             <input class="table-form__button" type="submit" value="Фильтр">
         </form>
         <script>
-				$(document).ready(function(){
-            		$("#reset").trigger("click");
-            		}
-        		);
-				$(document).ready(
-				    $('#post-form').submit(function(e){
-					    e.preventDefault();
-					    var serializedData = $(this).serialize();
+                $(document).ready(function(){
+                    $("#reset").trigger("click");
+                    }
+                );
+                $(document).ready(
+                    $('#post-form').submit(function(e){
+                        e.preventDefault();
+                        var serializedData = $(this).serialize();
 
-						$.ajax({
-							type:"POST",
-							url: "{% url 'post_list' %}",
-							data:  serializedData,
-							success: function(data){
-							$("#result").html(data);
-							}
-						});
-				    })
-				);
+                        $.ajax({
+                            type:"POST",
+                            url: "{% url 'post_list' %}",
+                            data:  serializedData,
+                            success: function(data){
+                            $("#result").html(data);
+                            }
+                        });
+                    })
+                );
 
         </script>
         <br/>
