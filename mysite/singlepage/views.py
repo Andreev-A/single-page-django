@@ -48,6 +48,7 @@ def table_body_output(dataset, page_navigation):
     Forming the table body in HTML page by page.
     """
     global _page
+    table_rows = []
     number_of_pages = len(dataset) // NUMBER_OF_TABLE_ROW + 1 \
         if not dataset or len(dataset) % NUMBER_OF_TABLE_ROW else len(dataset) // NUMBER_OF_TABLE_ROW
     if page_navigation == -1 and _page > 1:
@@ -56,7 +57,6 @@ def table_body_output(dataset, page_navigation):
         _page += page_navigation
     elif not page_navigation:
         _page = 1
-    table_rows = []
     start = NUMBER_OF_TABLE_ROW * _page - NUMBER_OF_TABLE_ROW
     stop = NUMBER_OF_TABLE_ROW * _page
     for data in dataset[start:stop]:
